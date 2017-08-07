@@ -25,21 +25,36 @@ add_executable( ${ExeName} ${SRCS} )
         
         # GLM for vector/matrix mathematics
         find_package (GLM REQUIRED)
-        
-        if (SDL2_FOUND)
-            if (GLM_FOUND)
-                # SDL2 path handling
-                string(REGEX REPLACE "/SDL2" "" SDL_INCLUDE_OUT "${SDL2_INCLUDE_DIRS}")
-                string(REGEX REPLACE "SDL2 " "SDL2" SDL_OUT "${SDL2_LIBRARIES}")
-                MESSAGE("SDL2 Include: ${SDL_INCLUDE_OUT}.")
-                MESSAGE("SDL2 Libraries: ${SDL_OUT}.")
 
-                # Link and add search paths
-                target_include_directories(${ExeName} PUBLIC "${SDL_INCLUDE_OUT}" "${GLM_INCLUDE_DIRS}")
-                SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g" )
-                target_link_libraries(${ExeName} ${SDL_OUT} "-lGL")
-            endif (GLM_FOUND)
-        endif (SDL2_FOUND)
+        # SDL_gpu for a high-level OpenGL wrapper
+        #   
+        #   Currently there is no FindSDL_gpu module so
+        #   linking is manually done
+        #   
+        #   find_package (SDL_gpu REQUIRED)
+                
+        
+        # Make sure everything is found correctly
+        if (SDL2_FOUND AND GLM_FOUND)
+            # SDL2 path handling
+            string(REGEX REPLACE "/SDL2" "" SDL_INCLUDE_OUT "${SDL2_INCLUDE_DIRS}")
+            string(REGEX REPLACE "SDL2 " "SDL2" SDL_OUT "${SDL2_LIBRARIES}")
+            MESSAGE("SDL2 Include: ${SDL_INCLUDE_OUT}.")
+            MESSAGE("SDL2 Libraries: ${SDL_OUT}.")
+
+            # Add include directories
+            target_include_directories(${ExeName} PUBLIC "${SDL_INCLUDE_OUT}" "${GLM_INCLUDE_DIRS}" "/usr/include/")
+            
+            # Set compiler flags
+            SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g" )
+            
+            # Link libraries
+            target_link_libraries(${ExeName} 
+            ${SDL_OUT} 
+            "-lSDL2_gpu"
+            "-lGL")
+                                        
+        endif (SDL2_FOUND AND GLM_FOUND)
     endif(UNIX AND NOT APPLE)
 
 
