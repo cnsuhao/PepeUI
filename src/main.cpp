@@ -1,23 +1,34 @@
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_gpu.h>
+#include "form.h"
+#include <stdio.h>
 
 int main(int argc, char **argv) {
-    GPU_Target* form = GPU_Init(1600, 900, 0);
-    
-    /*std::cout << "SDL2 Attempting initialization." << std::endl;
-    if(SDL_Init(SDL_INIT_EVERYTHING) != 0){
-       std::cout << "SDL2 failed with error: " << SDL_GetError() << std::endl;
-       return -1;
-    }
-    std::cout << "SDL2 Initialized successfully!" << std::endl;
-    */
-    
+    Globals globals;
+    Form* form = new Form(&globals);
 
+    // Main while loop
+    while(!globals.shouldQuit) {
+        // Process input events
+        SDL_Event event;
+        while( SDL_PollEvent( &event ) ){
+            switch( event.type ){
+            case SDL_KEYDOWN:
+                printf( "Key press detected\n" );
+                break;
+            case SDL_KEYUP:
+                if(event.key.keysym.sym==SDLK_ESCAPE)
+                    globals.shouldQuit=true;
+                break;
+            case SDL_QUIT:
+                globals.shouldQuit = true;
+                break;
+            }
+        }
+        
+        // Render
+        GPU_ClearColor(form->window,globals.BackgroundColor);
+        GPU_Flip(form->window);
+    }
     
-    std::cout << "Quitting SDL_gpu." << std::endl;
-    GPU_Quit();
-    //std::cout << "Quitting SDL2." << std::endl;
-    //SDL_Quit();
+    delete form;
     return 0;
 }
