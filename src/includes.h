@@ -24,35 +24,24 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef INCLUDES_H
+#define INCLUDES_H
 
-// Includes
-#include "includes.h"
-#include "enums.h"
+// STL
+#include <iostream>
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <map>
 
+// SDL_gpu
+#include <SDL2/SDL_gpu.h>
 
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
+// SDL_ttf
+#include <SDL2/SDL_ttf.h>
 
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
-    
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
-};
+// GLM
+#include <glm/glm.hpp>
+using namespace glm;
 
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
-
-#endif // GLOBALS_H
+#endif // INCLUDES_H

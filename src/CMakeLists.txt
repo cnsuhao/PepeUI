@@ -1,9 +1,11 @@
 
 # List all source files into string ${SRCS}
-file( GLOB SRCS *.c *.h *.cpp *.hpp ) 
+file( GLOB HSRCS *.h *.hpp ) 
+file( GLOB SRCS *.c *.cpp ) 
+
 
 # Add the main executable
-add_executable( ${ExeName} ${SRCS} )
+add_executable( ${ExeName} ${HSRCS} ${SRCS} )
 
 # Link libraries
 # Windows
@@ -31,17 +33,27 @@ add_executable( ${ExeName} ${SRCS} )
         #   Currently there is no FindSDL_gpu module so
         #   linking is manually done
         #   
-        #   find_package (SDL_gpu REQUIRED)
+        #   find_package (SDL_gpu)
+        #
+        # SDL_ttf for text rendering
+        #   
+        #   Currently linked manually   
+        #
+        #   find_package(SDL_ttf REQUIRED)
                 
         
+        MESSAGE("SDLTTF Include: ${SDL2_TTF_INCLUDE_OUT}.")
         # Make sure everything is found correctly
         if (SDL2_FOUND AND GLM_FOUND)
             # SDL2 path handling
             string(REGEX REPLACE "/SDL2" "" SDL_INCLUDE_OUT "${SDL2_INCLUDE_DIRS}")
             string(REGEX REPLACE "SDL2 " "SDL2" SDL_OUT "${SDL2_LIBRARIES}")
+            
+            # Debug messages
             MESSAGE("SDL2 Include: ${SDL_INCLUDE_OUT}.")
             MESSAGE("SDL2 Libraries: ${SDL_OUT}.")
-
+            MESSAGE("SDLGPU LIBRARY PPATH: ${SDL_GPU_LIBRARIES}")
+            
             # Add include directories
             target_include_directories(${ExeName} PUBLIC "${SDL_INCLUDE_OUT}" "${GLM_INCLUDE_DIRS}" "/usr/include/")
             
@@ -51,6 +63,8 @@ add_executable( ${ExeName} ${SRCS} )
             # Link libraries
             target_link_libraries(${ExeName} 
             ${SDL_OUT} 
+            #${SDL_GPU_LIBRARIES}
+            "-lSDL2_ttf"
             "-lSDL2_gpu"
             "-lGL")
                                         

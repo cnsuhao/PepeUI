@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 <copyright holder> <email>
+ * Copyright (c) 2017 Anas Youssef Idiab candfa2660@gmail.com
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -28,15 +28,47 @@
 
 Form::Form(Globals* globals)
 {
+    // Store a pointer to the global variables
     this->globals = globals;
+    
+    // SDL_gpu debugging
+#ifdef DEBUG
+    GPU_SetDebugLevel(GPU_DEBUG_LEVEL_MAX);
+#endif // DEBUG
+    
     // Create window
     window = GPU_Init(1600,900,GPU_DEFAULT_INIT_FLAGS);
+    globals->window = window;
     
+    // Start text input 
+    SDL_StartTextInput();
+    
+    // Initialize SDL_ttf
+    if(!TTF_WasInit() && TTF_Init()==-1) {
+        printf("TTF_Init: %s\n", TTF_GetError());
+    }
+    
+    // SDL window options
+    {
+        // Obtain SDL window from gpu window
+        SDL_Window* sdlwindow = SDL_GetWindowFromID(window->context->windowID);
+        
+        // Set window title
+        SDL_SetWindowTitle(sdlwindow, globals->WindowTitle.c_str());
+        
+        // Set resizable
+        SDL_SetWindowResizable(sdlwindow, SDL_TRUE);
+    }
 }
 
 Form::~Form()
 {
+    // Delete target memory
     GPU_FreeTarget(window);
-    // Deinitialize sdl_gpu
+    
+    // Deinitialize SDL_ttf
+    TTF_Quit();
+    
+    // Deinitialize SDL2 and SDL_gpu
     GPU_Quit();    
 }

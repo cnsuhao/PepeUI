@@ -24,35 +24,28 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef CONSOLE_H
+#define CONSOLE_H
 
-// Includes
+#include "drawable.h"
 #include "includes.h"
-#include "enums.h"
+#include "text.h"
 
 
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
+class Console : public Drawable
+{
+public:
+    Console();
+    ~Console();
+    virtual void Draw();
+    virtual void Update();
+    virtual void OnTimedTick();
+    virtual void OnKeyUp(SDL_Event* event);
 
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
+    // Static console content
+    static void Log(std::string Message, ConsoleLineType Type);
     
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
+
 };
 
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
-
-#endif // GLOBALS_H
+#endif // CONSOLE_H

@@ -24,35 +24,34 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef TEXT_H
+#define TEXT_H
 
 // Includes
 #include "includes.h"
-#include "enums.h"
 
+// Include parent
+#include "drawable.h"
 
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
-
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
+class Text : public Drawable
+{
+public:
+    Text();
+    Text(std::string text);
+    Text(std::string text, GPU_Target* target);
+    Text(std::string text, TTF_Font* font);
+    ~Text();
     
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
+    void Draw()     override;
+    void Update()   override;
+    void SetFont(Font font, int size);
+    
+    TTF_Font*       font;
+    std::string     text = "";
+    
+private:
+    void load(std::string text, TTF_Font* font, GPU_Target* tar);
+    SDL_Surface* textsurface;
 };
 
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
-
-#endif // GLOBALS_H
+#endif // TEXT_H

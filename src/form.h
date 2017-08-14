@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 <copyright holder> <email>
+ * Copyright (c) 2017 Anas Youssef Idiab candfa2660@gmail.com
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -28,7 +28,7 @@
 #define FORM_H
 
 // Libraries
-#include <SDL2/SDL_gpu.h>
+#include "includes.h"
 
 // Local includes
 #include "globals.h"
@@ -48,6 +48,5 @@ private:
     Globals* globals;
 };
 
-#include "form.cpp"
 
 #endif // FORM_H

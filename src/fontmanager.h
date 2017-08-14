@@ -24,35 +24,32 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef FONTMANAGER_H
+#define FONTMANAGER_H
 
-// Includes
 #include "includes.h"
-#include "enums.h"
+#include "drawable.h"
+#include "globals.h"
 
-
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
-
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
+class FontManager
+{
+public:
+    FontManager();
+    ~FontManager();
     
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
+    static TTF_Font* GetFont(Font font, int fontsize);
+
+private:
+    
+    
+    static std::map<Font, std::string> fontnames;
+    
+    static std::map<Font, std::map<int, TTF_Font*>> fontcollection;
+    
+    // Map of drawables to be drawn
+    //static std::map<const char*, Drawable*> Drawables;
+    
+    
 };
 
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
-
-#endif // GLOBALS_H
+#endif // FONTMANAGER_H

@@ -24,35 +24,22 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef ENUMS_H
+#define ENUMS_H
 
-// Includes
-#include "includes.h"
-#include "enums.h"
-
-
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
+// Console log types
+enum ConsoleLineType {
+    Log         = 0,
+    Warning     = 1,
+    Error       = 2,
+    LoadError   = 3
 };
 
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
-    
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
+enum Font {
+    Main = 0,
+    ConsoleFont = 1
 };
 
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
 
-#endif // GLOBALS_H
+
+#endif // ENUMS_H

@@ -24,35 +24,51 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#include "image.h"
+#include "console.h"
 
-// Includes
-#include "includes.h"
-#include "enums.h"
-
-
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
-
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
+Image::Image(const char* filename)
+{
+    // Load the texture
+    texture = GPU_LoadImage(filename);
     
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
-};
+    // Error handling
+    if(texture == nullptr){
+        Console::Log(filename, ConsoleLineType::LoadError);
+    }
+    
+    // Set image specs
+    srcrect.w = texture->w;
+    srcrect.h = texture->h;
+    
+    // Store globals pointer
+    target = globals->window;    
+}
 
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
+Image::Image(const char* filename, GPU_Target* target)
+{
+    // Load the texture
+    texture = GPU_LoadImage(filename);
+    
+    // Error handling
+    if(texture == nullptr){
+        Console::Log(filename, ConsoleLineType::LoadError);
+    }
+    
+    // Set image specs
+    srcrect.w = texture->w;
+    srcrect.h = texture->h;
+    
+    // Store globals pointer
+    this->target = target;    
+}
 
-#endif // GLOBALS_H
+Image::~Image()
+{
+    
+}
+
+void Image::Draw() {
+    // Draw the texture using the stored variables
+    GPU_Blit(texture, &srcrect, target, Position.x, Position.y);
+}

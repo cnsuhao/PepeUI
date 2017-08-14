@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Anas Youssef Idiab candfa2660@gmail.com
+ * Copyright (c) 2017 <copyright holder> <email>
  * 
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -24,35 +24,41 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef TEXTBOX_H
+#define TEXTBOX_H
 
-// Includes
-#include "includes.h"
-#include "enums.h"
+#include "drawable.h"
+#include "text.h"
+#include "image.h"
 
+class TextBox : public Drawable
+{
+public:
+    TextBox();
+    ~TextBox();
+    virtual void Draw();
+    virtual void Update();
+    virtual void OnTimedTick();
+    virtual void OnMouseDown(SDL_Event* event);
+    virtual void OnMouseUp(SDL_Event* event);
+    virtual void OnMouseMotion(SDL_Event* event);
+    virtual void OnInputCaptured(SDL_Event* event);
 
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
-
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
+    bool        cursorVisible = false;
+    Text*       textleft;
+    Text*       textright;
+    GPU_Image*  background;
+    GPU_Rect    bgsrcrect;
+    GPU_Image*  cursorimage;
+    GPU_Rect    cursorsrcrect;
+    GPU_Rect    cursordestrect;
     
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
+    std::string text;
+    std::string composition;
+    Sint32 cursor;
+    Sint32 selection_len;
+    
+    
 };
 
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
-
-#endif // GLOBALS_H
+#endif // TEXTBOX_H

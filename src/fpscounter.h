@@ -24,35 +24,34 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef FPSCOUNTER_H
+#define FPSCOUNTER_H
 
 // Includes
 #include "includes.h"
-#include "enums.h"
 
+// local include
+#include "drawable.h"
+#include "text.h"
 
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
-
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
+class FPSCounter : public Drawable
+{
+public:
+    FPSCounter();
+    ~FPSCounter();
+    void Draw()         override;
+    void Update()       override;
+    void OnTick()       override;
+    void OnTimedTick()  override;
+  
     
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
+    SDL_TimerID timer;
+    Text*       text;
+    int         frameCounter = 0;
+    
+private:
+    static Uint32 UpdateFPS(Uint32 interval, void *param);
+    
 };
 
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
-
-#endif // GLOBALS_H
+#endif // FPSCOUNTER_H

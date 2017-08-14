@@ -24,35 +24,21 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#include "mainprogram.h"
+#include "widgets.h"
 
-// Includes
-#include "includes.h"
-#include "enums.h"
+void MainProgram::Load() {
+    // Add drawables to list of drawables
+    DrawableManager::AddDrawable("fpscounter",  new FPSCounter());
+    DrawableManager::AddDrawable("console",     new Console());
+    DrawableManager::AddDrawable("textbox",     new TextBox());
+}
 
-
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
-
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
+void MainProgram::Tick() {
     
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
-};
+}
 
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
+void MainProgram::Unload() {
+    
+}
 
-#endif // GLOBALS_H

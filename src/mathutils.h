@@ -24,35 +24,25 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef MATHUTILS_H
+#define MATHUTILS_H
 
-// Includes
 #include "includes.h"
-#include "enums.h"
+
+namespace MathUtils {
+    // TODO: Point-Rect intersection
+    bool PointRectIntersects(vec2 Point, GPU_Rect Rect){
+        //top left check
+        if (Point.x >= Rect.x && Point.y >= Rect.y){
+            if (Point.x <= Rect.x+Rect.w && Point.y <= Rect.y+Rect.h) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
+    // TODO: Point-Circle intersection
+}
 
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
-    
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
-};
-
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
-
-#endif // GLOBALS_H
+#endif

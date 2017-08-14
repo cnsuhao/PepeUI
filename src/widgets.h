@@ -24,35 +24,11 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef WIDGETS_H
+#define WIDGETS_H
 
-// Includes
-#include "includes.h"
-#include "enums.h"
+#include "console.h"
+#include "fpscounter.h"
+#include "textbox.h"
 
-
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
-
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
-    
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
-};
-
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
-
-#endif // GLOBALS_H
+#endif // WIDGETS_H

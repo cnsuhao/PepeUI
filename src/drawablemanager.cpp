@@ -24,35 +24,39 @@
  * 
  */
 
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#include "drawablemanager.h"
 
-// Includes
-#include "includes.h"
-#include "enums.h"
+// Static member definitions
+std::map<const char*, Drawable*> DrawableManager::drawables = std::map<const char*, Drawable*>();
 
 
-// Capture struct
-struct CaptureInfo{
-    const char* drawableID;
-    bool        useTextInput;
-    bool        mouseCaptured;
-};
-
-// Global variable structure
-struct Globals {
-    SDL_Color       BackgroundColor     = {40,40,40,255};
-    std::string     WindowTitle         = "Dank Music Machine";
-    bool            shouldQuit          = false;
-    GPU_Target*     window;
+DrawableManager::DrawableManager()
+{
     
-    std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
-};
+}
 
-// Application context that includes pointers to relevant information
-/*struct ApplicationContext {
-    Globals*    globals;
-    GPU_Target* target;
-};*/
+DrawableManager::~DrawableManager() {
+    // Delete drawables
+     for (auto drawable : drawables) {
+         delete drawable.second;
+     }
+}
 
-#endif // GLOBALS_H
+void DrawableManager::AddDrawable(const char* id, Drawable* drawable) {
+    if(drawables[id] == nullptr) {
+        drawables[id] = drawable;
+    } else {
+        delete drawables[id];
+        drawables[id] = drawable;
+    }
+}
+
+Drawable * DrawableManager::GetDrawable(const char* id) {
+    return drawables[id];
+}
+
+std::map<const char *, Drawable *> * DrawableManager::GetDrawableMap() {
+    return &drawables;
+}
+
+
