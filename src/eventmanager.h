@@ -86,7 +86,7 @@ namespace EventManager {
         }
     }
     
-    void TriggerTickFunctions () {
+    void TriggerTickFunctions (GPU_Target* window) {
         // Update and render all drawables
         for (auto drawable : *drawables) {
             // Trigger tick functions
@@ -101,8 +101,16 @@ namespace EventManager {
                     drawable.second->handles.TimerLastTrigger = SDL_GetTicks();
                 }
             }
+
+
+            // Clear backbuffer
+            if(globals->shouldRefresh)
+            {
+                GPU_ClearColor(window, globals->BackgroundColor);
+    
             // Render current drawable
-            drawable.second->Draw();
+                drawable.second->Draw();
+            }
         }
     }
     

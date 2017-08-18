@@ -65,6 +65,8 @@ void FPSCounter::Draw()
 
 void FPSCounter::Update()
 {
+    globals->shouldRefresh = true;
+
     text->text = "FPS: " + std::to_string(frameCounter);
     text->Update();
     

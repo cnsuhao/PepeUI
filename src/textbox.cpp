@@ -83,6 +83,7 @@ void TextBox::Draw()
 
 void TextBox::Update()
 {
+    globals->shouldRefresh = true;
     // Update texts
     textleft->Update();
     textright->Update();

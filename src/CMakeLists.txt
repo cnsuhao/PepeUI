@@ -21,7 +21,7 @@ add_executable( ${ExeName} ${HSRCS} ${SRCS} )
     
 
 # Linux
-    if(UNIX AND NOT APPLE)
+    if(UNIX)
         # SDL2 for cross-platform windowing
         find_package (SDL2 REQUIRED)
         
@@ -58,20 +58,31 @@ add_executable( ${ExeName} ${HSRCS} ${SRCS} )
             target_include_directories(${ExeName} PUBLIC "${SDL_INCLUDE_OUT}" "${GLM_INCLUDE_DIRS}" "/usr/include/")
             
             # Set compiler flags
-            SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g" )
+            SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -std=c++11" )
             
             # Link libraries
-            target_link_libraries(${ExeName} 
-            ${SDL_OUT} 
-            #${SDL_GPU_LIBRARIES}
-            "-lSDL2_ttf"
-            "-lSDL2_gpu"
-            "-lGL")
-                                        
+            if(APPLE)
+	            target_link_libraries(${ExeName} 
+	            ${SDL_OUT} 
+	            #${SDL_GPU_LIBRARIES}
+	            "-lSDL2_ttf"
+	            "-lSDL2_gpu"
+	            "-framework OpenGL")
+            else()
+				target_link_libraries(${ExeName} 
+	            ${SDL_OUT} 
+	            #${SDL_GPU_LIBRARIES}
+	            "-lSDL2_ttf"
+	            "-lSDL2_gpu"
+	            "-lGL")
+            endif(APPLE)
+
         endif (SDL2_FOUND AND GLM_FOUND)
-    endif(UNIX AND NOT APPLE)
+    endif(UNIX)
 
 
 
 # Install the main executable
 install(TARGETS ${ExeName} RUNTIME DESTINATION bin)
+
+

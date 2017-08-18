@@ -37,7 +37,7 @@ Form::Form(Globals* globals)
 #endif // DEBUG
     
     // Create window
-    window = GPU_Init(1600,900,GPU_DEFAULT_INIT_FLAGS);
+    window = GPU_Init(1200,720,GPU_DEFAULT_INIT_FLAGS);
     globals->window = window;
     
     // Start text input 

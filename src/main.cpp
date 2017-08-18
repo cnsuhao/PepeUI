@@ -67,17 +67,18 @@ int main(int argc, char **argv) {
         // Handle input
         EventManager::TriggerEvents();
         
-        // Clear backbuffer
-        GPU_ClearColor(form.window, globalsobj.BackgroundColor);
-        
+
         // Trigger Tick() of the main program
         program.Tick();
         
         // Trigger OnTick(), OnTimedTick() and Draw() appropriately
-        EventManager::TriggerTickFunctions();
+        EventManager::TriggerTickFunctions(form.window);
         
         // Swap backbuffers
-        GPU_Flip(form.window);
+        if(globalsobj.shouldRefresh)
+            GPU_Flip(form.window);
+
+        globalsobj.shouldRefresh = false;
     }
     
     return 0;
