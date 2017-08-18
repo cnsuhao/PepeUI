@@ -82,7 +82,7 @@ void FPSCounter::OnTimedTick()
 
 void FPSCounter::OnTick()
 {
-    frameCounter++;
+    //frameCounter++;
 }
 
 

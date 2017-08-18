@@ -28,7 +28,7 @@
 #define EVENTMANAGER_H
 
 #include "includes.h"
-#include "drawable.h"
+#include "fpscounter.h"
 
 namespace EventManager {
     // Functions
@@ -87,6 +87,7 @@ namespace EventManager {
     }
     
     void TriggerTickFunctions (GPU_Target* window) {
+        
         // Update and render all drawables
         for (auto drawable : *drawables) {
             // Trigger tick functions
@@ -103,15 +104,21 @@ namespace EventManager {
             }
 
 
+            
+            
+        }
+        
+        if(globals->shouldRefresh) {
             // Clear backbuffer
-            if(globals->shouldRefresh)
-            {
-                GPU_ClearColor(window, globals->BackgroundColor);
-    
-            // Render current drawable
+            GPU_ClearColor(window, globals->BackgroundColor);
+            // Add frame to fps counter
+            //(FPSCounter*)((drawables*)["fpscounter"])->frameCounter++;
+            for (auto drawable : *drawables) {                
+                // Render current drawable
                 drawable.second->Draw();
             }
         }
+        
     }
     
     void TriggerEvents() {
