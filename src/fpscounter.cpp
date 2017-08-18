@@ -36,7 +36,7 @@ FPSCounter::FPSCounter()
     // Set up handles
     handles.UsingTimer  = true;
     handles.TimerTime   = 1000;
-    handles.UsingTick   = true;
+    handles.UsingTick   = false;
     
     // SDL Timer
     //timer = SDL_AddTimer(1000, UpdateFPS, (void*)this);
@@ -55,7 +55,7 @@ FPSCounter::FPSCounter()
 FPSCounter::~FPSCounter()
 {
     delete text;
-    SDL_RemoveTimer(timer);
+    //SDL_RemoveTimer(timer);
 }
 
 void FPSCounter::Draw()
@@ -67,7 +67,7 @@ void FPSCounter::Update()
 {
     globals->shouldRefresh = true;
 
-    text->text = "FPS: " + std::to_string(frameCounter);
+    text->text = "FPS: " + std::to_string(globals->frameCounter);
     text->Update();
     
     text->Position.x = text->texture->w/2.0;
@@ -77,7 +77,7 @@ void FPSCounter::Update()
 void FPSCounter::OnTimedTick()
 {
     Update();
-    frameCounter = 0;
+    globals->frameCounter = 0;
 }
 
 void FPSCounter::OnTick()
@@ -100,7 +100,7 @@ Uint32 FPSCounter::UpdateFPS(Uint32 interval, void* param)
         printf("locking mutex failed....");
     }
     myobj->Update();
-    myobj->frameCounter = 0;
+    //myobj->frameCounter = 0;
     SDL_UnlockMutex(myobj->mutex);
 }
 

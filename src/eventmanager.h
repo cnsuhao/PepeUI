@@ -102,8 +102,6 @@ namespace EventManager {
                     drawable.second->handles.TimerLastTrigger = SDL_GetTicks();
                 }
             }
-
-
             
             
         }
@@ -112,6 +110,7 @@ namespace EventManager {
             // Clear backbuffer
             GPU_ClearColor(window, globals->BackgroundColor);
             // Add frame to fps counter
+            globals->frameCounter++;
             //(FPSCounter*)((drawables*)["fpscounter"])->frameCounter++;
             for (auto drawable : *drawables) {                
                 // Render current drawable

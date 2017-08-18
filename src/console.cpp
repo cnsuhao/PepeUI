@@ -80,6 +80,7 @@ void Console::Draw()
 {
     if (shouldUpdate) {
         Update();
+        globals->shouldRefresh = true;
     }
     for (auto line : ConsoleContent)
     {

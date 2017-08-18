@@ -47,7 +47,7 @@ public:
     
     SDL_TimerID timer;
     Text*       text;
-    int         frameCounter = 0;
+    //int         frameCounter = 0;
     
 private:
     static Uint32 UpdateFPS(Uint32 interval, void *param);

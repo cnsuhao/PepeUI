@@ -45,7 +45,10 @@ struct Globals {
     std::string     WindowTitle         = "Dank Music Machine";
     bool            shouldQuit          = false;
     GPU_Target*     window;
+    
+    // Rendering
     bool            shouldRefresh       = true;
+    int             frameCounter        = 0;
 
     std::vector<CaptureInfo> CaptureStack = std::vector<CaptureInfo>();
 };
